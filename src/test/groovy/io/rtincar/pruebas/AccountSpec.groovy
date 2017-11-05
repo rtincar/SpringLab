@@ -3,6 +3,7 @@ package io.rtincar.pruebas
 import groovy.json.JsonOutput
 import io.rtincar.kanbanboard.configuration.AccountConfiguration
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -22,15 +23,18 @@ I want to create an account
 ''')
 //@ContextConfiguration(classes = [AccountConfiguration])
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = [AccountConfiguration]/*,
         properties = [ "spring.main.webApplicationType=reactive" ]*/
 )
 class AccountSpec extends Specification {
 
+    @LocalServerPort
+    Integer port
+
     WebTestClient client = WebTestClient
             .bindToServer()
-            .baseUrl("http://localhost:9090")
+            .baseUrl("http://localhost:${port}")
             .build()
 
     void "Should return ok"() {
