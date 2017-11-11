@@ -36,8 +36,14 @@ class AccountSpec extends Specification {
     Integer port
 
 
+    def setup() {
+
+    }
+
+
 
     void "Should return ok"() {
+
         given: "JSON account data"
     WebTestClient client = WebTestClient
             .bindToServer()
