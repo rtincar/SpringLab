@@ -3,18 +3,14 @@ package io.rtincar.pruebas
 import groovy.json.JsonOutput
 import io.rtincar.kanbanboard.configuration.AccountConfiguration
 import io.rtincar.prueabas.TestConfiguration
-import org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.MediaType
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.web.reactive.config.EnableWebFlux
 import org.springframework.web.reactive.function.BodyInserters
 import spock.lang.Narrative
 import spock.lang.Specification
 import spock.lang.Title
-
 
 @Title('Create new account')
 @Narrative('''
@@ -24,22 +20,14 @@ As a non registered user
 I want to create an account
 
 ''')
-//@ContextConfiguration(classes = [AccountConfiguration])
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
-        classes = [TestConfiguration, AccountConfiguration],
-        properties = [ "spring.main.webApplicationType=reactive" ]
+        classes = [TestConfiguration, AccountConfiguration]
 )
 class AccountSpec extends Specification {
 
     @LocalServerPort
     Integer port
-
-
-    def setup() {
-
-    }
-
 
 
     void "Should return ok"() {
