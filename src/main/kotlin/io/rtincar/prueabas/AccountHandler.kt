@@ -10,7 +10,6 @@ import reactor.core.publisher.toMono
 class AccountHandler {
 
     fun createAccount(req: ServerRequest): Mono<ServerResponse> {
-
         return ok().body("{\"status\" : \"ok\"}".toMono())
     }
 
