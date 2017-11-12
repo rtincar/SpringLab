@@ -3,12 +3,17 @@ package io.rtincar.pruebas
 import groovy.json.JsonOutput
 import io.rtincar.kanbanboard.configuration.AccountConfiguration
 import io.rtincar.prueabas.TestConfiguration
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.ServerResponse
 import spock.lang.Narrative
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Title
 
@@ -21,28 +26,40 @@ I want to create an account
 
 ''')
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
-        classes = [TestConfiguration, AccountConfiguration]
+        //webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        classes = [/*TestConfiguration, */AccountConfiguration]
 )
 class AccountSpec extends Specification {
 
-    @LocalServerPort
+/*    @LocalServerPort
     Integer port
 
+    */
+
+    @Autowired
+    ApplicationContext context
+
+    @Shared
+    WebTestClient testClient
+
+
+    def setup() {
+        testClient = WebTestClient.bindToApplicationContext(context).build()
+    }
 
     void "Should return ok"() {
 
         given: "JSON account data"
-    WebTestClient client = WebTestClient
+    /*WebTestClient client = WebTestClient
             .bindToServer()
             .baseUrl("http://localhost:${port}")
-            .build()
+            .build()*/
 
         def jsonAccount = JsonOutput.toJson([a: 2, b: 'Data'])
 
         when: "Try to create an account"
 
-        def exchange = client.post()
+        def exchange = testClient.post()
                 .uri("/api/v1/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromObject(jsonAccount))
