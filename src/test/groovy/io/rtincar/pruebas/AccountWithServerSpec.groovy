@@ -24,7 +24,7 @@ I want to create an account
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
         classes = [TestConfiguration, AccountConfiguration]
 )
-class AccountSpec extends Specification {
+class AccountWithServerSpec extends Specification {
 
     @LocalServerPort
     Integer port
